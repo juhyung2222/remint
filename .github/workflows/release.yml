@@ -125,4 +125,4 @@ jobs:
           if ($tail) { $parts += $tail }
           $notesFile = Join-Path $env:RUNNER_TEMP 'notes.md'
           Set-Content $notesFile ($parts -join "`n`n") -Encoding utf8
-          gh release create '${{ github.ref_name }}' --title "Filee $version" --notes-file $notesFile --verify-tag @files
+          gh release create '${{ github.ref_name }}' --title "Remint $version" --notes-file $notesFile --verify-tag @files
