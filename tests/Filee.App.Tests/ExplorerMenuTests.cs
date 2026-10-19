@@ -226,7 +226,7 @@ public class ExplorerMenuTests
         using var command = NativeCommand.Create(dll);
         // The title comes from the file the app writes into its data folder; without it the English default is used.
         var expectedTitle = ExplorerMenuRegistration.ReadTitle();
-        Assert.Equal(expectedTitle ?? "Convert with Filee", command.GetTitle());
+        Assert.Equal(expectedTitle ?? "Convert with Remint", command.GetTitle());
         Assert.Equal(Path.Combine(BuiltFolder, "Filee.exe") + ",0", command.GetIcon(), ignoreCase: true);
         Assert.Equal(ExplorerMenuPackage.ClassId, command.GetCanonicalName());
 
