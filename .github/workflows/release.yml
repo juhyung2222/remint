@@ -10,21 +10,41 @@
 # downloads them.
 name: Release
 
+# Remint: pushing the `release` branch also publishes a release. The tag is v<Version> from Directory.Build.props and
+# is created by the release itself, so no tag push is needed.
 on:
   push:
     tags: ['v*']
+    branches: ['release']
 
 permissions:
   contents: write
 
 jobs:
+  meta:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Release tag
+        id: tag
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "tag=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          else
+            version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Directory.Build.props | head -1)
+            echo "tag=v$version" >> "$GITHUB_OUTPUT"
+          fi
+
   portable:
+    needs: meta
     uses: ./.github/workflows/portable.yml
     with:
-      version: ${{ github.ref_name }}
+      version: ${{ needs.meta.outputs.tag }}
 
   windows:
-    needs: portable
+    needs: [meta, portable]
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -37,7 +57,7 @@ jobs:
         id: version
         shell: pwsh
         run: |
-          $version = '${{ github.ref_name }}'.TrimStart('v')
+          $version = '${{ needs.meta.outputs.tag }}'.TrimStart('v')
           "value=$version" >> $env:GITHUB_OUTPUT
 
       - name: Fonts
@@ -112,7 +132,7 @@ jobs:
 
           # GitHub's generated notes: the merged pull requests (one list instead of its label headings, which would
           # repeat the CHANGELOG's), new contributors and the full changelog link.
-          $generated = (gh api -X POST "repos/${{ github.repository }}/releases/generate-notes" -f tag_name='${{ github.ref_name }}' | ConvertFrom-Json).body
+          $generated = (gh api -X POST "repos/${{ github.repository }}/releases/generate-notes" -f tag_name='${{ needs.meta.outputs.tag }}' -f target_commitish='${{ github.sha }}' | ConvertFrom-Json).body
           $prs = @()
           if ($generated -match "(?ms)^## What's Changed[ \t]*\r?\n(.*?)(?=^## |^\*\*Full Changelog|\z)") {
             $prs = @($Matches[1] -split '\r?\n' | Where-Object { $_ -match '^\* ' })
@@ -125,4 +145,4 @@ jobs:
           if ($tail) { $parts += $tail }
           $notesFile = Join-Path $env:RUNNER_TEMP 'notes.md'
           Set-Content $notesFile ($parts -join "`n`n") -Encoding utf8
-          gh release create '${{ github.ref_name }}' --title "Remint $version" --notes-file $notesFile --verify-tag @files
+          gh release create '${{ needs.meta.outputs.tag }}' --title "Remint $version" --notes-file $notesFile --target '${{ github.sha }}' @files
