@@ -24,7 +24,7 @@
 
 #define AppName "Remint"
 #define AppExe "Filee.exe"
-#define RepositoryUrl "https://github.com/juhyung2222/filee-teammint"
+#define RepositoryUrl "https://github.com/juhyung2222/remint"
 ; Never change: Windows finds the installed Filee by this id (uninstall key "{<id>}_is1").
 #define AppGuid "C8686E06-8327-40A2-B0F7-3DEDD61D9248"
 

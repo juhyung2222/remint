@@ -21,7 +21,7 @@
 
     <!-- Single source of truth for the GitHub repository (used by the updater and the About page). -->
     <!-- TeamMint fork: updates come from this repository's Releases (upstream: https://github.com/KnifeLemon/Filee) -->
-    <FileeRepositoryUrl>https://github.com/juhyung2222/filee-teammint</FileeRepositoryUrl>
+    <FileeRepositoryUrl>https://github.com/juhyung2222/remint</FileeRepositoryUrl>
     <RepositoryUrl>$(FileeRepositoryUrl)</RepositoryUrl>
   </PropertyGroup>
 </Project>
