@@ -106,6 +106,9 @@ programs inside it are Inno Setup's.
 | Noto Sans, Noto Sans KR, Noto Sans SC | SIL Open Font License 1.1 | https://github.com/notofonts |
 | Freesentation (TeamMint edition UI font) | SIL Open Font License 1.1 | https://freesentation.blog |
 | Gmarket Sans (TeamMint edition headings) | Gmarket Sans license (free for personal and commercial use; the font itself may not be sold) | https://corp.gmarket.com/fonts |
+
+The Freesentation and Gmarket Sans copyright notices and the full SIL Open Font License text are in
+`src/Filee.App/Assets/Fonts/FONT-LICENSES.txt`, which is built into the app together with the fonts.
 | Test fonts in `tests/Filee.Engines.Tests/Fonts` (subsets of Noto Sans and Noto Sans KR; not shipped) | SIL Open Font License 1.1 | see `OFL.txt` in that folder |
 | Material Design Icons (Pictogrammers) | Apache-2.0 | https://pictogrammers.com |
 | Simple Icons 16.35.0 (GitHub Sponsors, Patreon, Ko-fi and PayPal logos in the Sponsor window) | CC0-1.0 | https://simpleicons.org |
