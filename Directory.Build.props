@@ -20,7 +20,8 @@
     <Copyright>Copyright (c) Filee contributors</Copyright>
 
     <!-- Single source of truth for the GitHub repository (used by the updater and the About page). -->
-    <FileeRepositoryUrl>https://github.com/KnifeLemon/Filee</FileeRepositoryUrl>
+    <!-- TeamMint fork: updates come from this repository's Releases (upstream: https://github.com/KnifeLemon/Filee) -->
+    <FileeRepositoryUrl>https://github.com/juhyung2222/filee-teammint</FileeRepositoryUrl>
     <RepositoryUrl>$(FileeRepositoryUrl)</RepositoryUrl>
   </PropertyGroup>
 </Project>

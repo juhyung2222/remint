@@ -15,7 +15,8 @@
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="8,0,0,20">
           <Image Source="avares://Filee/Assets/Icons/filee.png" Width="30" Height="30" />
           <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="Filee" FontSize="18" FontWeight="Bold" />
+            <TextBlock Classes="eyebrow" Text="TEAMMINT" FontSize="9.5" Margin="0,0,0,1" />
+            <TextBlock Text="Filee" FontFamily="{DynamicResource HeadFontFamily}" FontSize="18" FontWeight="Bold" LetterSpacing="-0.4" />
             <TextBlock Classes="caption" Text="{DynamicResource app.tagline}" />
           </StackPanel>
         </StackPanel>

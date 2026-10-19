@@ -14,12 +14,20 @@ public sealed class ThemeService(IPlatformServices platform)
 {
     /// <summary>Accent swatches offered in the Theme page.</summary>
     public static readonly IReadOnlyList<string> Swatches =
-        ["#7F77DD", "#1D9E75", "#D85A30", "#378ADD", "#D4537E", "#BA7517", "#639922", "#5F5E5A"];
+        // TeamMint: Mint, Mint Deep, Ink first; then a few neutral extras.
+        ["#9ED9D7", "#237E7A", "#111111", "#5C6064", "#378ADD", "#D85A30", "#D4537E", "#BA7517"];
+
+    /// <summary>TeamMint brand mint. On white it is too light for text (1.6:1), so text uses Mint Deep.</summary>
+    public const string BrandMint = "#9ED9D7";
+    private const string BrandMintDeep = "#237E7A";
 
     /// <summary>Embedded Noto fonts (see build/fetch-fonts.ps1). Missing files fall back to system fonts.</summary>
     private const string Latin = "fonts:Filee#Noto Sans";
     private const string Korean = "fonts:Filee#Noto Sans KR";
     private const string Chinese = "fonts:Filee#Noto Sans SC";
+    // TeamMint type: Freesentation for UI text, Gmarket Sans for headings (Assets/Fonts, committed).
+    private const string Body = "fonts:Filee#Freesentation";
+    private const string Head = "fonts:Filee#Gmarket Sans TTF";
     private const string SystemFallbacks = "Segoe UI, Malgun Gothic, Microsoft YaHei, PingFang SC, Apple SD Gothic Neo, sans-serif";
 
     public void Apply(ThemeSettings theme, string language)
@@ -35,13 +43,31 @@ public sealed class ThemeService(IPlatformServices platform)
         };
 
         // Accent colour + derived shades. Fluent controls read the System* keys.
-        var accent = Color.TryParse(theme.Accent, out var parsed) ? parsed : Color.Parse("#7F77DD");
+        var accent = Color.TryParse(theme.Accent, out var parsed) ? parsed : Color.Parse(BrandMint);
         res["AccentColor"] = accent;
         res["AccentBrush"] = new SolidColorBrush(accent);
         res["AccentSoftBrush"] = new SolidColorBrush(accent, 0.18);
         res["AccentFaintBrush"] = new SolidColorBrush(accent, 0.09);
-        res["AccentStrongBrush"] = new SolidColorBrush(Shade(accent, -0.25));
-        res["OnAccentBrush"] = new SolidColorBrush(Luminance(accent) > 0.6 ? Color.Parse("#1F1E1D") : Colors.White);
+        // Text-on-white version of the accent: Mint Deep for the brand mint, otherwise darken light accents more.
+        var strong = accent == Color.Parse(BrandMint) ? Color.Parse(BrandMintDeep)
+            : Shade(accent, Luminance(accent) > 0.6 ? -0.5 : -0.25);
+        res["AccentStrongBrush"] = new SolidColorBrush(strong);
+        var onAccent = Luminance(accent) > 0.6 ? Color.Parse("#000000") : Colors.White;
+        var onAccentBrush = new SolidColorBrush(onAccent);
+        res["OnAccentBrush"] = onAccentBrush;
+        // Fluent draws white text/glyphs on accent fills; on a light accent (mint) that is unreadable.
+        foreach (var key in new[]
+                 {
+                     "AccentButtonForeground", "AccentButtonForegroundPointerOver", "AccentButtonForegroundPressed",
+                     "ToggleSwitchKnobFillOn", "ToggleSwitchKnobFillOnPointerOver", "ToggleSwitchKnobFillOnPressed",
+                     "CheckBoxCheckGlyphForegroundChecked", "CheckBoxCheckGlyphForegroundCheckedPointerOver",
+                     "CheckBoxCheckGlyphForegroundCheckedPressed",
+                     "ToggleButtonForegroundChecked", "ToggleButtonForegroundCheckedPointerOver",
+                     "ToggleButtonForegroundCheckedPressed",
+                 })
+        {
+            res[key] = onAccentBrush;
+        }
         res["SystemAccentColor"] = accent;
         res["SystemAccentColorLight1"] = Shade(accent, 0.15);
         res["SystemAccentColorLight2"] = Shade(accent, 0.30);
@@ -62,7 +88,8 @@ public sealed class ThemeService(IPlatformServices platform)
         var cjk = language.StartsWith("zh", StringComparison.OrdinalIgnoreCase)
             ? $"{Chinese}, {Korean}"
             : $"{Korean}, {Chinese}";
-        res["AppFontFamily"] = FontFamily.Parse($"{Latin}, {cjk}, {SystemFallbacks}");
+        res["AppFontFamily"] = FontFamily.Parse($"{Body}, {Latin}, {cjk}, {SystemFallbacks}");
+        res["HeadFontFamily"] = FontFamily.Parse($"{Head}, {Body}, {Latin}, {cjk}, {SystemFallbacks}");
 
         Motion.Configure(theme.ReduceMotion, () => platform.PrefersReducedMotion);
     }

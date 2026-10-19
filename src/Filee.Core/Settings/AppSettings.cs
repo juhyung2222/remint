@@ -28,13 +28,13 @@ public enum CloseAction
 /// <summary>Look and feel.</summary>
 public sealed class ThemeSettings
 {
-    public ThemeMode Mode { get; set; } = ThemeMode.System;
+    public ThemeMode Mode { get; set; } = ThemeMode.Light; // TeamMint: white is the default
 
     /// <summary>Accent colour as <c>#RRGGBB</c>.</summary>
-    public string Accent { get; set; } = "#7F77DD";
+    public string Accent { get; set; } = "#9ED9D7"; // TeamMint mint
 
     /// <summary>Base corner radius in pixels. Larger = "softer" UI.</summary>
-    public double CornerRadius { get; set; } = 16;
+    public double CornerRadius { get; set; } = 10;
 
     /// <summary>
     /// Disables animations (for low-end PCs or motion sensitivity).

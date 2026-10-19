@@ -1,3 +1,6 @@
+> **팀민트 에디션** · [KnifeLemon/Filee](https://github.com/KnifeLemon/Filee)(MIT)를 포크해 팀민트 CI(화이트 기본, 블랙 · 민트 #9ED9D7, G마켓 산스 · 프리젠테이션)를 입힌 버전입니다.
+> 기능은 원본과 같고, 업데이트 알림은 이 저장소의 Releases를 봅니다. 원본 업데이트를 받으려면 `git fetch upstream && git merge upstream/main` 후 태그를 다시 올리세요.
+
 <p align="center">
   <a href="https://filee.sh/ko/"><img src="docs/media/banner-ko.jpg" alt="Filee: 끌어서 놓으면, 변환 끝." width="100%"></a>
 </p>

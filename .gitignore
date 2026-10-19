@@ -30,3 +30,6 @@ Thumbs.db
 # Fonts are downloaded by build/fetch-fonts.ps1
 src/Filee.App/Assets/Fonts/*.ttf
 src/Filee.App/Assets/Fonts/*.otf
+# TeamMint fonts are committed (not downloaded)
+!src/Filee.App/Assets/Fonts/Freesentation-*.ttf
+!src/Filee.App/Assets/Fonts/GmarketSans*.ttf
