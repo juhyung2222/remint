@@ -22,9 +22,9 @@
   #error PublishDir is not defined: build with build/build-installer.ps1
 #endif
 
-#define AppName "Filee"
+#define AppName "Remint"
 #define AppExe "Filee.exe"
-#define RepositoryUrl "https://github.com/KnifeLemon/Filee"
+#define RepositoryUrl "https://github.com/juhyung2222/filee-teammint"
 ; Never change: Windows finds the installed Filee by this id (uninstall key "{<id>}_is1").
 #define AppGuid "C8686E06-8327-40A2-B0F7-3DEDD61D9248"
 
@@ -33,7 +33,7 @@ AppId={{{#AppGuid}}
 AppName={#AppName}
 AppVersion={#AppVersion}
 AppVerName={#AppName} {#AppVersion}
-AppPublisher=Filee contributors
+AppPublisher=TeamMint (based on Filee)
 AppPublisherURL={#RepositoryUrl}
 AppSupportURL={#RepositoryUrl}/issues
 AppUpdatesURL={#RepositoryUrl}/releases
@@ -45,7 +45,8 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0.17763
 PrivilegesRequired=admin
-DefaultDirName={autopf}\{#AppName}
+; Install folder keeps the Filee name: the app and its build scripts expect it.
+DefaultDirName={autopf}\Filee
 DisableWelcomePage=no
 DisableProgramGroupPage=yes
 UninstallDisplayName={#AppName}
